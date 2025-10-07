@@ -1,0 +1,63 @@
+services:
+
+  booking-system-api:
+    container_name: booking-system-api
+    build: .
+    restart: unless-stopped
+    #image: booking-system-api:0.0.1
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+    env_file:
+      - .env
+    depends_on:
+      - booking-system-database
+      - redis
+    networks:
+      - booking_net
+
+  #webserver: Needs to be configured in case you want to use Nginx
+    #image: nginx:latest
+    #container_name: booking-system-webserver
+    #restart: unless-stopped
+    #ports:
+    #  - "8080:80"
+    #volumes:
+    #  - .:/var/www
+    #  - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    #depends_on:
+    #  - booking-system-api
+    #networks:
+    #  - booking_net
+  
+  booking-system-database:
+    container_name: booking-system-database
+    restart: unless-stopped
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: booking_system_database
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - booking_net
+
+  redis:
+    container_name: booking-system-redis
+    image: "redis:alpine"
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - booking_net
+
+networks:
+  booking_net:
+
+volumes:
+  pgdata: {}
