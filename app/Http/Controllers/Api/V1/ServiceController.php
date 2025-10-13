@@ -7,34 +7,46 @@ use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Http\Resources\ServiceCollection;
 use App\Http\Resources\ServiceResource;
+use App\Interfaces\RedisCacheInterface;
+use App\Services\ServiceService;
 use Illuminate\Http\JsonResponse;
 use App\Models\Service;
-use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected ServiceService $serviceService;
+    protected RedisCacheInterface $redisCache;
+
+    public function __construct(RedisCacheInterface $redisCache, ServiceService $serviceService)
+    {
+        $this->redisCache = $redisCache;
+        $this->serviceService = $serviceService;
+    }
+
     public function index(): ServiceCollection
     {
-        $services = Service::query()
-            ->paginate(10)
-            ->withQueryString();
+        $config = config("cache_keys.service_index");
+        $cacheKey = $config['prefix'].request('page', 1);
+
+        $services = $this->redisCache->remember($cacheKey, $config['ttl'], function(){
+            return Service::query()
+                ->paginate(10)
+                ->withQueryString();
+        });
+
         return (new ServiceCollection($services))
             ->additional([
                 'success' => true,
+                'cached' => true,
                 'message' => 'Services retrieved successfully',
             ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreServiceRequest $request): JsonResponse
     {
         try{
-            $service = Service::create($request->validated());
+            $validatedRequest = $request->validated();
+            $service = $this->serviceService->createService($validatedRequest);
 
             return (new ServiceResource($service))
                 ->additional([
@@ -52,24 +64,32 @@ class ServiceController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Service $service): ServiceResource
     {
-        return (new ServiceResource($service))
+        $config = config("cache_keys.service_show");
+        $cacheKey = $config["prefix"].$service->id;
+
+        $serviceCached = $this->redisCache->rememberWithHit($cacheKey, $config["ttl"], function() use ($service){
+            return $service;
+        });
+
+        return (new ServiceResource($serviceCached['data']))
             ->additional([
                 'success' => true,
+                'from_cache' => $serviceCached["from_cache"],
                 'message' => 'Service retrieved successfully',
             ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateServiceRequest $request, Service $service): ServiceResource
     {
-        $service->update($request->validated());
+        $validatedRequest = $request->validated();
+
+        $this->serviceService->updateService($service, $validatedRequest);
+
+        //invalidate cache
+        $this->redisCache->forget("service:id:".$service->id);
+        $this->redisCache->forgetPattern("services:page*");
 
         return (new ServiceResource($service))
             ->additional([
@@ -78,12 +98,12 @@ class ServiceController extends Controller
             ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Service $service): JsonResponse
     {
-        $service->delete();
+        $this->serviceService->deleteService($service);
+
+        $this->redisCache->forget("service:id:".$service->id);
+        $this->redisCache->forgetPattern("services:page*");
 
         return response()->json([
             'success' => true,

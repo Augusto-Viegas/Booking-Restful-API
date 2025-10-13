@@ -16,6 +16,7 @@ class ServiceSlotResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'service_id' => $this->service_id,
             'date' => $this->date->format('Y-m-d'),
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,

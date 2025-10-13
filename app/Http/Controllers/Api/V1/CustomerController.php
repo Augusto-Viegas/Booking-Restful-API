@@ -77,7 +77,7 @@ class CustomerController extends Controller
             return $customer->load('bookings');
         });
 
-        return (new CustomerResource($customerData))
+        return (new CustomerResource($customerData['data']))
             ->additional([
                 'success' => true,
                 'from_cache' => $customerData['from_cache'] ?? false,

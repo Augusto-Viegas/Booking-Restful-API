@@ -91,4 +91,19 @@ class ServiceSlotService
         return "service:{$serviceId}:slot_cache_keys";
     }
 
+    public function createServiceSlot(array $data): ServiceSlot
+    {
+        return ServiceSlot::create($data);
+    }
+
+    public function updateServiceSlot(ServiceSlot $serviceSlot, array $data): bool
+    {
+        return $serviceSlot->update($data);
+    }
+
+    public function deleteServiceSlot(ServiceSlot $serviceSlot): bool
+    {
+        return $serviceSlot->delete();
+    }
+
 }

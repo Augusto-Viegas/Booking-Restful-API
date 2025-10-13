@@ -84,4 +84,14 @@ class BookingService
         $this->redisCache->forget("availability:{$dateKey}");
         $this->redisCache->forget("availability:service:{$slot->service_id}:date:{$dateKey}");
     }
+
+    public function updateBooking(Booking $booking, array $data): bool
+    {
+        return $booking->update($data);
+    }
+
+    public function deleteBooking(Booking $booking): bool
+    {
+        return $booking->delete();
+    }
 }

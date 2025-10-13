@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Interfaces\RedisCacheInterface;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 use Closure;
 
 class RedisCacheService implements RedisCacheInterface
@@ -15,18 +17,28 @@ class RedisCacheService implements RedisCacheInterface
 
     public function rememberWithHit(string $key, int $seconds, Closure $callback): array
     {
-        //Check if the value is not null
         $sentinel = new \stdClass();
-        $value = Cache::get($key, $sentinel);
+        $cached = Cache::get($key, $sentinel);
 
-        if($value !== $sentinel){
-            return ['value' => $value, 'from_cache' => true];
+        if($cached !== $sentinel){
+            if(is_string($cached) && str_starts_with($cached, 'SERIALIZED:')){
+                $cached = unserialize(substr($cached, 11));
+            }
+
+            return ['data' => $cached, 'from_cache' => true];
         }
 
         $value = $callback();
-        Cache::put($key, $value, now()->addSeconds($seconds));
 
-        return ['value' => $value, 'from_cache' => false];
+        if($value instanceof Model || $value instanceof Collection){
+            $storeValue = 'SERIALIZED:'.serialize($value);
+        } else {
+            $storeValue = $value;
+        }
+
+        Cache::put($key, $storeValue, now()->addSeconds($seconds));
+
+        return ['data' => $value, 'from_cache' => false];
     }
 
     public function get(string $key, mixed $default = null)

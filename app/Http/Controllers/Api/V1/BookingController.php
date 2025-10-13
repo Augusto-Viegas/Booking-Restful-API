@@ -51,7 +51,8 @@ class BookingController extends Controller
     public function store(StoreBookingRequest $request): JsonResponse
     {
         try {
-            $booking = $this->bookingService->createBooking($request->validated());
+            $validatedRequest = $request->validated();
+            $booking = $this->bookingService->createBooking($validatedRequest);
 
             return (new BookingResource($booking))
                 ->additional([
@@ -66,20 +67,20 @@ class BookingController extends Controller
                 'success' => false,
                 'message' => 'Failed to create a booking',
                 'error' => $e->getMessage(),
-                'details' => $e->getTrace(),
             ], 500);
         }
     }
 
     public function show(Booking $booking): BookingResource
     {
-        $cacheKey = "booking:{$booking->id}";
+        $config = config('cache_keys.booking_show');
+        $cacheKey = $config['prefix'].$booking->id;
 
         $bookingCached = $this->redisCache->rememberWithHit($cacheKey, 60, function() use ($booking){
             return $booking->load(['customer', 'service', 'serviceSlot']);
         });
 
-        return (new BookingResource($bookingCached))
+        return (new BookingResource($bookingCached['data']))
             ->additional([
                 'success' => true,
                 'from_cache' => $bookingCached['from_cache'],
@@ -89,11 +90,12 @@ class BookingController extends Controller
 
     public function update(UpdateBookingRequest $request, Booking $booking): BookingResource
     {
-        $booking->update($request->validated());
+        $validatedRequest = $request->validated();
+        $this->bookingService->updateBooking($booking, $validatedRequest);
 
         //Invalidate cache
         $this->redisCache->forget("booking:{$booking->id}");
-        $this->redisCache->forget("bookings:page:1");
+        $this->redisCache->forgetPattern("bookings:page:*");
 
         return (new BookingResource($booking))
             ->additional([
@@ -104,10 +106,10 @@ class BookingController extends Controller
 
     public function destroy(Booking $booking): JsonResponse
     {
-        $booking->delete();
+        $this->bookingService->deleteBooking($booking);
 
         $this->redisCache->forget("booking:{$booking->id}");
-        $this->redisCache->forget("bookings:page:1");
+        $this->redisCache->forgetPattern("bookings:page:*");
 
         return response()->json([
             'success' => true,
