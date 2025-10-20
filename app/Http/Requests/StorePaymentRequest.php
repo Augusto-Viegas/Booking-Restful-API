@@ -3,8 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Enums\PaymentMethodsEnum;
+use App\Enums\PaymentStatusEnum;
 
-class UpdateCustomerRequest extends FormRequest
+class StorePaymentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +25,10 @@ class UpdateCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|required|string|max:100',
-            'email' => 'sometimes|required|string|email|max:150|unique:customers,email,'.$this->customer->id,
-            'password' => 'nullable|string|min:8|max:255',
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
-            'birthdate' => 'nullable',
-            'is_active' => 'boolean',
+            'booking_id' => 'required|exists:bookings,id',
+            'amount' => 'required|numeric|min:0',
+            'payment_method' => ['required', Rule::enum(PaymentMethodsEnum::class)],
+            'status' => ['required', Rule::enum(PaymentStatusEnum::class)],
         ];
     }
 }

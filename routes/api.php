@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\CustomerController;
 use App\Http\Controllers\Api\V1\ServiceController;
 use App\Http\Controllers\Api\V1\ServiceSlotController;
 use App\Http\Controllers\Api\V1\BookingController;
+use App\Http\Controllers\Api\V1\PaymentController;
 use App\Http\Middleware\Authenticate;
 
 
@@ -41,6 +42,7 @@ Route::prefix('v1')
             Route::apiResource('services', ServiceController::class);
             Route::apiResource('service-slot', ServiceSlotController::class);
             Route::apiResource('bookings', BookingController::class);
+            Route::post('payments', [PaymentController::class, 'store']);        
         });
 
         /**

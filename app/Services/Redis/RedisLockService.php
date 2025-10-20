@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Redis;
 
-use App\Interfaces\RedisLockInterface;
+use App\Interfaces\RedisInterfaces\RedisLockInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 

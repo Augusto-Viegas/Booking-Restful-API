@@ -3,10 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\SlotGeneratorService;
+use App\Services\ServiceSlot\SlotGeneratorService;
 use App\Http\Requests\GenerateServiceSlotRequest;
 use Illuminate\Support\Facades\Validator;
-use App\Models\SystemUser;
 
 class CreateSlots extends Command
 {

@@ -31,6 +31,7 @@ class StoreBookingRequest extends FormRequest
             'status' => ['required', Rule::enum(BookingStatusEnum::class)],
             'payment_status' => ['required', Rule::enum(BookingPaymentStatusEnum::class)],
             'notes' => 'string',
+            'total_amount' => 'required|min:0',
         ];
     }
 }

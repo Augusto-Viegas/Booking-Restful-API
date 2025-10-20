@@ -7,8 +7,8 @@ use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Http\Resources\ServiceCollection;
 use App\Http\Resources\ServiceResource;
-use App\Interfaces\RedisCacheInterface;
-use App\Services\ServiceService;
+use App\Interfaces\RedisInterfaces\RedisCacheInterface;
+use App\Services\Service\ServiceService;
 use Illuminate\Http\JsonResponse;
 use App\Models\Service;
 

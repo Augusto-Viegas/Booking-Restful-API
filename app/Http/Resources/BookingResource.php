@@ -23,6 +23,7 @@ class BookingResource extends JsonResource
             'status_label' => $this->status->label(),
             'payment_status' => $this->payment_status->value,
             'payment_status_label' => $this->payment_status->label(),
+            'total_amount' => $this->total_amount,
         ];
     }
 }

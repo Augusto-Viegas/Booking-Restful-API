@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->string('status')->default('pending');
             $table->string('payment_status')->default('unpaid');
+            $table->decimal('total_amount', 8, 2);
             $table->text('notes')->nullable();
             $table->timestamps();
         });

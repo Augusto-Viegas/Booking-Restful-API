@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Redis;
 
-use App\Interfaces\RedisTokenBlacklistInterface;
+use App\Interfaces\RedisInterfaces\RedisTokenBlacklistInterface;
 use Illuminate\Support\Facades\Redis;
 
 class RedisTokenBlackListService implements RedisTokenBlacklistInterface

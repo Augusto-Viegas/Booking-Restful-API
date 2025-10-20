@@ -1,6 +1,7 @@
 Work in progress.
-The README and the documentation will add after I finish implementing the main functions.
+The README and the documentation will be add after I finish implementing the main functions.
 
 # Booking System API:
-API RESTful for managing service reservation.
-It was designed to be "generic", allowing its use in different segments such clinics, gyms, hotels etc.
+A API RESTful deisgned for managing service reservations.
+It was built with a generic architecture, enabling seamless integration across multiple business
+domains such as clinics, gyms, hotels, and other service-oriented environments.

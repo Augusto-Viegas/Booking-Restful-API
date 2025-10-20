@@ -3,14 +3,14 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Interfaces\RedisCacheInterface;
-use App\Interfaces\RedisLockInterface;
-use App\Interfaces\RedisQueueInterface;
-use App\Interfaces\RedisTokenBlacklistInterface;
-use App\Services\RedisCacheService;
-use App\Services\RedisLockService;
-use App\Services\RedisQueueService;
-use App\Services\RedisTokenBlackListService;
+use App\Interfaces\RedisInterfaces\RedisCacheInterface;
+use App\Interfaces\RedisInterfaces\RedisLockInterface;
+use App\Interfaces\RedisInterfaces\RedisQueueInterface;
+use App\Interfaces\RedisInterfaces\RedisTokenBlacklistInterface;
+use App\Services\Redis\RedisCacheService;
+use App\Services\Redis\RedisLockService;
+use App\Services\Redis\RedisQueueService;
+use App\Services\Redis\RedisTokenBlackListService;
 
 class RedisInfraServiceProvider extends ServiceProvider
 {

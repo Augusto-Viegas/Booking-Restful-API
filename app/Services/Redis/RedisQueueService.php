@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Redis;
 
-use App\Interfaces\RedisQueueInterface;
+use App\Interfaces\RedisInterfaces\RedisQueueInterface;
 
 class RedisQueueService implements RedisQueueInterface
 {

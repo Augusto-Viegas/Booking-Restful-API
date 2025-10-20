@@ -21,6 +21,7 @@ tais quais como clínicas, academias, hoteis etc.
 - Testes unitários e de feature
 
 # Estrutura do projeto:
+```
 app/
   -Console/
     -Commands/# (Comandos customizados para API)
@@ -39,14 +40,17 @@ tests/
   -Feature/#
   -Unit/#
 docker/# Arquivos de configuração Docker
+```
 
 # Como rodar o projeto:
+```
 1)Clonar o repositório
 2)Subir containers com Docker
 3)Instalar dependências
 4)Configurar variáveis de ambiente
 5)Rodar migrations e seeders
 6)Gerar chave da aplicação
+```
 
 # Rodando testes:
 - docker exec -it booking-system-api bash
@@ -55,8 +59,10 @@ docker/# Arquivos de configuração Docker
 # Autenticação:
 A API utiliza JWT para a autenticação. Primeiramente você iria precisar de um usuário.
 Faça:
+```
 - docker exec -it booking-system-api bash
 - php artisan user:make
+
 Isso irá gerar um usuário funcionário de teste com nível mais baixo de autenticação no sistema. Após isso faça:
 - POST api/auth/login
   {
@@ -69,6 +75,7 @@ Isso irá gerar um token jwt para utilizar o sistema como um funcionário, por e
     "token_type": "bearer",
     "expires_in": 3600
   }
+```
 
 # Documentação da API:
 - Versão em Markdown
@@ -83,7 +90,7 @@ Isso irá gerar um token jwt para utilizar o sistema como um funcionário, por e
 - Cache + locks com Redis para performance e segurança
 
 # Autor
-Feito por Augusto Viegas
+Feito por Augusto Viegasd
 
 
 

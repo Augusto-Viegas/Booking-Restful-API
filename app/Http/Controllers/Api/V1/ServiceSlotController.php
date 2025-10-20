@@ -6,15 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\JsonResponse;
 use App\Models\ServiceSlot;
-use App\Services\SlotGeneratorService;
-use App\Interfaces\RedisCacheInterface;
+use App\Services\ServiceSlot\SlotGeneratorService;
+use App\Interfaces\RedisInterfaces\RedisCacheInterface;
 use App\Http\Requests\GenerateServiceSlotRequest;
 use App\Http\Requests\StoreServiceSlotRequest;
 use App\Http\Requests\UpdateServiceSlotRequest;
 use App\Http\Resources\GeneratedServiceSlotResource;
 use App\Http\Resources\ServiceSlotCollection;
 use App\Http\Resources\ServiceSlotResource;
-use App\Services\ServiceSlotService;
+use App\Services\ServiceSlot\ServiceSlotService;
 
 class ServiceSlotController extends Controller
 { 

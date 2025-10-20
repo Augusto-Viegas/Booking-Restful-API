@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\ServiceSlot;
 
 use App\Models\ServiceSlot;
 use DateInterval;

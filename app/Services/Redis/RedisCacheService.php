@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Redis;
 
-use App\Interfaces\RedisCacheInterface;
+use App\Interfaces\RedisInterfaces\RedisCacheInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;

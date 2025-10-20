@@ -7,8 +7,8 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\BookingCollection;
-use App\Services\BookingService;
-use App\Interfaces\RedisCacheInterface;
+use App\Services\Booking\BookingService;
+use App\Interfaces\RedisInterfaces\RedisCacheInterface;
 use Illuminate\Http\JsonResponse;
 use App\Models\Booking;
 

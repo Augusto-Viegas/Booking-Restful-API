@@ -7,8 +7,8 @@ use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
-use App\Services\CustomerService;
-use App\Interfaces\RedisCacheInterface;
+use App\Services\Customer\CustomerService;
+use App\Interfaces\RedisInterfaces\RedisCacheInterface;
 use Illuminate\Http\JsonResponse;
 use App\Models\Customer;
 

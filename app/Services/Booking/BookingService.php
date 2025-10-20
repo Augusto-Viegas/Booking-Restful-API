@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Booking;
 
 use App\Models\Booking;
 use App\Models\ServiceSlot;
-use App\Interfaces\RedisCacheInterface;
-use App\Interfaces\RedisLockInterface;
-use App\Interfaces\RedisQueueInterface;
+use App\Interfaces\RedisInterfaces\RedisCacheInterface;
+use App\Interfaces\RedisInterfaces\RedisLockInterface;
+use App\Interfaces\RedisInterfaces\RedisQueueInterface;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\BookingFullException;
-use App\Services\ServiceSlotService;
+use App\Services\ServiceSlot\ServiceSlotService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class BookingService
@@ -64,6 +64,7 @@ class BookingService
                     'customer_id' => $data['customer_id'],
                     'status' => $data['status'] ?? 'confirmed',
                     'payment_status' => $data['payment_status'] ?? 'unpaid',
+                    'total_amount' => $data['total_amount'],
                     'notes' => $data['notes'] ?? null,
                 ]);
 

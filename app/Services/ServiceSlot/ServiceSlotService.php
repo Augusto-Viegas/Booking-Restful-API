@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\ServiceSlot;
 
 use App\Models\ServiceSlot;
 use App\Http\Resources\ServiceSlotResource;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class ServiceSlotService
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Service;
 
 use App\Models\Service;
-use App\Interfaces\RedisCacheInterface;
-use App\Interfaces\RedisLockInterface;
-use App\Interfaces\RedisQueueInterface;
+use App\Interfaces\RedisInterfaces\RedisCacheInterface;
+use App\Interfaces\RedisInterfaces\RedisLockInterface;
+use App\Interfaces\RedisInterfaces\RedisQueueInterface;
 
 class ServiceService
 {

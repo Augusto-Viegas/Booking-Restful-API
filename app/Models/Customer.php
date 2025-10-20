@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
+//use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use App\Services\ActivityLogger;
 use App\Models\Booking;
 use App\Traits\LogsActivity;
-
-//talvez desnecessário
-//use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Customer extends Model implements JWTSubject
 {
